@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <title>நவாம்சம் கட்டம்</title>
+    <style>
+        .chart {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            gap: 0;
+            position: relative;
+        }
+
+        .rasi-center-label {
+            position: absolute;
+            top: 50%;
+            left: 34%;
+            transform: translate(-50%, -50%);
+            font-size: 25px;
+            font-weight: bold;
+            color: black;
+            pointer-events: none;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .box {
+            background-color: white;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px;
+        }
+
+        .empty {
+            background-color: transparent;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chart">
+        <!-- Row 1: மீனம், மேஷம், ரிஷபம், மிதுனம் -->
+        {% for sign in ["மீனம்", "மேஷம்", "ரிஷபம்", "மிதுனம்"] %}
+        <div class="box">
+            {% for planet, deg in navamsa_chart.get(sign, []) %}
+            <div>{{ planet }} {{ "%.2f"|format(deg) }}°</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <!-- Row 2: கும்பம், empty, empty, கடகம் -->
+        <div class="box">
+            {% for planet, deg in navamsa_chart.get("கும்பம்", []) %}
+            <div>{{ planet }} {{ "%.2f"|format(deg) }}°</div>
+            {% endfor %}
+        </div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="box">
+            {% for planet, deg in navamsa_chart.get("கடகம்", []) %}
+            <div>{{ planet }} {{ "%.2f"|format(deg) }}°</div>
+            {% endfor %}
+        </div>
+
+        <!-- Row 3: மகரம், empty, empty, சிம்மம் -->
+        <div class="box">
+            {% for planet, deg in navamsa_chart.get("மகரம்", []) %}
+            <div>{{ planet }} {{ "%.2f"|format(deg) }}°</div>
+            {% endfor %}
+        </div>
+        <div class="empty"></div>
+        <div class="empty"></div>
+        <div class="box">
+            {% for planet, deg in navamsa_chart.get("சிம்மம்", []) %}
+            <div>{{ planet }} {{ "%.2f"|format(deg) }}°</div>
+            {% endfor %}
+        </div>
+
+        <!-- Row 4: தனுசு, விருச்சிகம், துலாம், கன்னி -->
+        {% for sign in ["தனுசு", "விருச்சிகம்", "துலாம்", "கன்னி"] %}
+        <div class="box">
+            {% for planet, deg in navamsa_chart.get(sign, []) %}
+            <div>{{ planet }} {{ "%.2f"|format(deg) }}°</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <!-- ✅ Center overlay label -->
+        <div class="rasi-center-label">நவாம்சம்</div>
+    </div>
+    </center>
+</body>
+
+</html>

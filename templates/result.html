@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <title>பிளானெட் நிலைகள் மற்றும் ராசி கட்டம்</title>
+    <style>
+        body {
+            font-family: "Noto Sans Tamil", sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #fff;
+            text-align: center;
+        }
+
+        .rasi-box {
+            border: 1px solid black;
+            text-align: center;
+            padding: 5px;
+            min-height: 80px;
+        }
+
+        .rasi-title {
+            font-weight: bold;
+            font-size: 18px;
+            color: #800000;
+        }
+
+        h2 {
+            margin-top: 20px;
+            color: #000;
+        }
+
+        .info {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        /* Styling for chart container */
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 30px;
+            /* Space between charts */
+            margin-top: 30px;
+        }
+
+        /* Ensure each chart box takes enough space */
+        .chart-box {
+            flex: 1;
+            max-width: 600px;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        /* Style for the headings on top of each chart */
+        .chart-heading {
+            font-size: 35px;
+            font-weight: bold;
+            color: #0f0f0f;
+            margin-bottom: 15px;
+            text-align: left;
+            /* Ensures heading is centered */
+        }
+
+        table {
+            width: 95%;
+            max-width: 900px;
+            border-collapse: collapse;
+            margin: 0 auto 50px auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #000;
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>📋 பிளானெட் நிலைகள் (Planetary Positions)</h2>
+    <div class="info">
+        🗓️ தேதி: {{ date }} |
+        🕒 நேரம்: {{ time }} |
+        📍 இடம்: {{ place }} |
+        🌗 அயனாம்சா: ({{ ayanamsa }}°)
+    </div>
+
+    <!-- 🌍 Planet Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>கிரகம்</th>
+                <th>அங்குலம் (°)</th>
+                <th>ராசி (TA)</th>
+                <th>ராசி அங்குலம் (°)</th>
+                <th>நவாம்ச ராசி</th>
+                <th>நவாம்ச அங்குலம் (°)</th>
+                <th>வக்கிரம்</th>
+                <th>வேகம் (°/நாள்)</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {% for planet in planet_data %}
+            <tr>
+                <td>{{ planet.name }}</td>
+                <td>{{ planet.degree }}</td>
+                <td>{{ planet.sign }}</td>
+                <td>{{ planet.sign_degree }}</td>
+                <td>{{ planet.navamsa_sign }}</td>
+                <td>{{ planet.navamsa_degree }}</td>
+                <td>{{ planet.retrograde }}</td>
+                <td>{{ planet.speed }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- 📊 Side-by-Side Charts -->
+    <div class="chart-container">
+        <div class="chart-box">
+            <h3 class="chart-heading"></h3>
+            {% include 'rasi_kattam.html' %}
+        </div>
+
+        <div class="chart-box">
+            <h3 class="chart-heading"></h3>
+            {% include 'navamsa_charts.html' %}
+        </div>
+    </div>
+
+</body>
+
+</html>

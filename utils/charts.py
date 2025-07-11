@@ -1,0 +1,28 @@
+# utils/charts.py
+
+def generate_navamsa_chart(planet_data):
+    box_order = [
+        "மீனம்", "மேஷம்", "ரிஷபம்", "மிதுனம்",
+        "கும்பம்", "", "", "கடகம்",
+        "மகரம்", "", "", "சிம்மம்",
+        "தனுசு", "விருச்சிகம்", "துலாம்", "கன்னி"
+    ]
+    grid = [["" for _ in range(4)] for _ in range(4)]
+    navamsa_dict = {}
+    for p in planet_data:
+        navamsa = p.get("navamsa")
+        if navamsa:
+            entry = f"{p['tamil_name']} {p['sign_degree']}°"
+            navamsa_dict.setdefault(navamsa, []).append(entry)
+    i = 0
+    for row in range(4):
+        for col in range(4):
+            sign = box_order[i]
+            if sign:
+                planets = "\n".join(navamsa_dict.get(sign, []))
+                grid[row][col] = f"{sign}\n{planets}".strip()
+            else:
+                grid[row][col] = ""
+            i += 1
+    return grid
+

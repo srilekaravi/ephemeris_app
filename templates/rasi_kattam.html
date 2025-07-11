@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <title>தெற்கு இந்திய ராசி கட்டம்</title>
+    <!-- Inside rasi_kattam.html -->
+    <style>
+        .chart {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            grid-template-rows: repeat(4, 100px);
+            gap: 0;
+            position: relative;
+            /* ✅ Added */
+
+        }
+
+        .rasi-center-label {
+            position: absolute;
+            top: 50%;
+            left: 33%;
+            right: 50%;
+
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+            pointer-events: none;
+            /* So that it doesn't block anything */
+        }
+
+
+
+        .box {
+            background-color: white;
+            border: 1px solid black;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            font-size: 13px;
+            padding: 1px;
+        }
+
+        .rasi-box {
+            border: 1px solid black;
+            text-align: center;
+            padding: 5px;
+            min-height: 80px;
+        }
+
+        .rasi-title {
+            font-weight: bold;
+            font-size: 20px;
+            color: black;
+        }
+
+        .lagna-box {
+            border: 1px solid red;
+            background-color: #ffe6e6;
+        }
+
+        .empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        .center-label {
+            font-size: 20px;
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+
+    {% set signs_tamil=[ "மேஷம்" , "ரிஷபம்" , "மிதுனம்" , "கடகம்" , "சிம்மம்" , "கன்னி" , "துலாம்"
+    , "விருச்சிகம்" , "தனுசு" , "மகரம்" , "கும்பம்" , "மீனம்" ] %} {% set rasi_planets=dict() %} {% for sign in
+    signs_tamil %} {% set _=rasi_planets.update({sign: []}) %} {% endfor %} {% for planet in planet_data %} {%
+    set line=planet.name ~ " " ~ planet.sign_degree ~ "°" %} {% set _=rasi_planets[planet.sign].append(line) %}
+    {% endfor %}
+
+    <!-- ✅ Open .chart -->
+    <div class="chart">
+
+        {# Row 1: மீனம், மேஷம், ரிஷபம், மிதுனம் #}
+        {% for sign in [ "மீனம்", "மேஷம்", "ரிஷபம்", "மிதுனம்" ] %}
+        {% set is_lagna='Lagna' in rasi_planets[sign]|join(',') %}
+        <div class="box {% if is_lagna %}lagna-box{% endif %}">
+            {% for p in rasi_planets[sign] %}
+            <div>{{ p }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        {# Row 2: கும்பம், (no box), (no box), கடகம் #}
+        {% set is_lagna = 'Lagna' in rasi_planets["கும்பம்"]|join(',') %}
+        <div class="box {% if is_lagna %}lagna-box{% endif %}">
+            {% for p in rasi_planets["கும்பம்"] %}
+            <div>{{ p }}</div>
+            {% endfor %}
+        </div>
+
+        <!-- ✅ leave 2 empty grid cells (no divs needed) -->
+        <div></div>
+        <div></div>
+
+        {% set is_lagna = 'Lagna' in rasi_planets["கடகம்"]|join(',') %}
+        <div class="box {% if is_lagna %}lagna-box{% endif %}">
+            {% for p in rasi_planets["கடகம்"] %}
+            <div>{{ p }}</div>
+            {% endfor %}
+        </div>
+
+        {# Row 3: மகரம், empty, empty, சிம்மம் #}
+        {% set is_lagna = 'Lagna' in rasi_planets["மகரம்"]|join(',') %}
+        <div class="box {% if is_lagna %}lagna-box{% endif %}">
+            {% for p in rasi_planets["மகரம்"] %}
+            <div>{{ p }}</div>
+            {% endfor %}
+        </div>
+        <div></div>
+        <div></div>
+        {% set is_lagna = 'Lagna' in rasi_planets["சிம்மம்"]|join(',') %}
+        <div class="box {% if is_lagna %}lagna-box{% endif %}">
+            {% for p in rasi_planets["சிம்மம்"] %}
+            <div>{{ p }}</div>
+            {% endfor %}
+        </div>
+
+        {# Row 4: தனுசு, விருச்சிகம், துலாம், கன்னி #}
+        {% for sign in [ "தனுசு", "விருச்சிகம்", "துலாம்", "கன்னி" ] %}
+        {% set is_lagna = 'Lagna' in rasi_planets[sign]|join(',') %}
+        <div class="box {% if is_lagna %}lagna-box{% endif %}">
+            {% for p in rasi_planets[sign] %}
+            <div>{{ p }}</div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <!-- ✅ ✅ ✅ Place center label after all 16 grid items -->
+        <div class="rasi-center-label">ராசி</div>
+
+    </div> <!-- Close .chart -->
+
+
+</body>
+
+</html>
